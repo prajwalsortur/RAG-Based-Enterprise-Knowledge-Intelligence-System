@@ -16,10 +16,15 @@ Run:
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import joblib
+from genai_layer import ask_gemini
 
 st.set_page_config(page_title="Food Waste Analytics", layout="wide")
 
 DATA_PATH = "data/waste_data.csv"
+MODEL_PATH = "models/waste_model.pkl"
+
+model = joblib.load(MODEL_PATH)
 
 @st.cache_data
 def load_data(path: str) -> pd.DataFrame:
@@ -51,6 +56,7 @@ def build_structured_summary(df: pd.DataFrame) -> dict:
 
 
 def call_llm(question: str, summary: dict) -> str:
+    return ask_gemini(question, summary)
     """
     Placeholder for Phase 6/7. Swap this out once you pick an LLM API
     (OpenAI / Anthropic / Gemini). The pattern stays the same regardless
@@ -74,6 +80,11 @@ def call_llm(question: str, summary: dict) -> str:
 
 # ---------- Load & filter ----------
 df = load_data(DATA_PATH)
+# Load feature-engineered data for ML predictions
+
+FEATURE_DATA_PATH = "data/waste_features.csv"
+
+ml_df = load_data(FEATURE_DATA_PATH)
 
 st.sidebar.header("Filters")
 date_min, date_max = df["date"].min().date(), df["date"].max().date()
@@ -102,6 +113,130 @@ c4.metric("Top wasted dish", fdf.groupby("dish_name")["wasted_qty"].sum().idxmax
 tab1, tab2 = st.tabs(["Dashboard", "Ask the analyst"])
 
 with tab1:
+       # ---------- Interactive Waste Forecast ----------
+    st.subheader("🔮 Waste Forecast")
+    predicted_waste = None
+    # Use the day after the latest available historical date
+    latest_date = ml_df["date"].max()
+    default_forecast_date = latest_date + pd.Timedelta(days=1)
+
+    forecast_date = st.date_input(
+        "Forecast date",
+        value=default_forecast_date.date(),
+        min_value=default_forecast_date.date()
+    )
+
+    forecast_date = pd.Timestamp(forecast_date)
+
+    # Automatically determine weekend from forecast date
+    is_weekend = 1 if forecast_date.dayofweek >= 5 else 0
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.write(
+            "Weekend:",
+            "Yes" if is_weekend else "No"
+        )
+
+    with col2:
+        month = forecast_date.month
+        st.write("Month:", month)
+
+    col3, col4 = st.columns(2)
+
+    with col3:
+        is_festival = st.selectbox(
+            "Is it a festival?",
+            ["No", "Yes"]
+        )
+
+    with col4:
+        has_promotion = st.selectbox(
+            "Is there a promotion?",
+            ["No", "Yes"]
+        )
+
+    # ---------- Automatically calculate historical features ----------
+
+    daily_waste = (
+        ml_df.groupby("date")["wasted_qty"]
+        .sum()
+        .sort_index()
+    )
+
+    previous_date = forecast_date - pd.Timedelta(days=1)
+    previous_week_date = forecast_date - pd.Timedelta(days=7)
+
+    # Previous day's total waste
+    if previous_date in daily_waste.index:
+        previous_waste = daily_waste.loc[previous_date]
+    else:
+        previous_waste = daily_waste.iloc[-1]
+
+    # Waste from the previous week
+    if previous_week_date in daily_waste.index:
+        previous_week_waste = daily_waste.loc[previous_week_date]
+    else:
+        previous_week_waste = daily_waste.iloc[-1]
+
+    # Previous 7-day average waste
+    historical_7_days = daily_waste[
+        (daily_waste.index < forecast_date)
+        & (daily_waste.index >= forecast_date - pd.Timedelta(days=7))
+    ]
+
+    if not historical_7_days.empty:
+        rolling_7_day_waste = historical_7_days.mean()
+    else:
+        rolling_7_day_waste = daily_waste.iloc[-1]
+
+    # ---------- Show automatically calculated values ----------
+
+    st.write("### Historical features used by the model")
+
+    f1, f2, f3 = st.columns(3)
+
+    f1.metric(
+        "Previous day waste",
+        f"{previous_waste:.2f} units"
+    )
+
+    f2.metric(
+        "Previous week waste",
+        f"{previous_week_waste:.2f} units"
+    )
+
+    f3.metric(
+        "7-day average waste",
+        f"{rolling_7_day_waste:.2f} units"
+    )
+
+    # ---------- Prediction ----------
+
+    if st.button("Predict Waste"):
+
+        prediction_features = pd.DataFrame([{
+            "is_weekend": is_weekend,
+            "is_festival": 1 if is_festival == "Yes" else 0,
+            "has_promotion": 1 if has_promotion == "Yes" else 0,
+            "previous_waste": previous_waste,
+            "previous_week_waste": previous_week_waste,
+            "rolling_7_day_waste": rolling_7_day_waste,
+            "month": month
+        }])
+
+        predicted_waste = model.predict(
+            prediction_features
+        )[0]
+
+        st.success(
+            f"Predicted Waste for "
+            f"{forecast_date.strftime('%d %B %Y')}: "
+            f"{predicted_waste:.2f} units"
+        )
+
+    st.divider()
     left, right = st.columns(2)
 
     with left:
@@ -129,6 +264,9 @@ with tab2:
     st.write("Ask a question about the filtered data. This will be grounded in "
              "pre-computed numbers once an LLM API is connected (Phase 6-7).")
     summary = build_structured_summary(fdf)
+
+    if predicted_waste is not None:
+         summary["predicted_waste"] = round(float(predicted_waste), 2)
     with st.expander("Structured summary sent to the LLM (debug view)"):
         st.json(summary)
     question = st.text_input("e.g. 'Why did we waste so much this week?'")
