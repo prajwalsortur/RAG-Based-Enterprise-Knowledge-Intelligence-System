@@ -1,21 +1,18 @@
-PROJECT STRUCTURE
-------------------
-
-food-waste-analytics-restaurants/
-├── app.py                   # Streamlit dashboard (EDA + Ask the analyst tab)
-├── generate_data.py          # Synthetic data generator
+FOOD-WASTE-ANALYTICS-FOR-RESTAURANT/
+│
+├── app.py
+├── train_model.py
+├── test_model.py
+├── genai_layer.py
+├── structured_summary.py
+├── summary.json
+│
+├── models/
+│   └── waste_model.pkl
+│
 ├── data/
 │   └── waste_data.csv
+│
+├── .gitignore
 ├── requirements.txt
 └── README.md
-
-# Planned additions:
-├── src/
-│   ├── features/              # Phase 4: feature engineering
-│   ├── models/                 # Phase 5: training & inference
-│   ├── genai/                   # Phase 6-7: LLM prompt & pipeline logic
-│   └── rag/                     # Stretch goal: retrieval over unstructured notes
-├── reports/                    # Phase 8: auto-generated weekly reports
-├── tests/                       # Phase 9: QA suite for model + GenAI accuracy
-├── notebooks/                   # Experimentation
-└── Dockerfile
