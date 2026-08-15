@@ -1,18 +1,26 @@
-FOOD-WASTE-ANALYTICS-FOR-RESTAURANT/
+PROJECT1/
 │
-├── app.py
-├── train_model.py
-├── test_model.py
-├── genai_layer.py
-├── structured_summary.py
-├── summary.json
+├── assets/
+│   └── dashboard_background.png
+│
+├── data/
+│   ├── waste_data.csv
+│   └── waste_features.csv
 │
 ├── models/
 │   └── waste_model.pkl
 │
-├── data/
-│   └── waste_data.csv
+├── app.py
+├── generate_data.py
+├── feature_engineering.py
+├── train_model.py
+├── test_model.py
 │
-├── .gitignore
+├── structured_summary.py
+├── genai_layer.py
+├── summary.json
+│
 ├── requirements.txt
-└── README.md
+├── README.md
+├── .gitignore
+└── .env
