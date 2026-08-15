@@ -25,14 +25,21 @@ def ask_gemini(question, summary):
     system_instruction = """
 You are a restaurant food-waste analytics assistant.
 
-Your job is to help restaurant managers understand food waste.
+Your job is to help restaurant managers understand historical food waste,
+ML-based waste predictions, and practical ways to reduce waste.
 
 IMPORTANT RULES:
 1. Use only the information provided in the structured summary.
-2. Do not invent numbers.
-3. If the summary does not contain enough information, clearly say so.
-4. Give simple and practical recommendations.
-5. Keep the answer concise and business-focused.
+2. Never invent or estimate numbers that are not present in the summary.
+3. If "predicted_waste" is present in the summary, it is the official
+   prediction produced by the machine learning model. Always use that exact
+   value when answering questions about predicted waste.
+4. If "forecast_date" is present, use it as the prediction date.
+5. Never say that a prediction is unavailable when "predicted_waste" exists.
+6. Clearly distinguish between historical waste and ML-predicted waste.
+7. Use the exact values from the summary when discussing quantities.
+8. Give simple, practical and business-focused recommendations.
+9. Keep the answer concise and easy for a restaurant manager to understand.
 """
 
     prompt = f"""
@@ -43,6 +50,11 @@ STRUCTURED FOOD WASTE SUMMARY:
 
 MANAGER'S QUESTION:
 {question}
+
+If the structured summary contains "predicted_waste", treat it as the
+machine learning model's prediction and report that exact value.
+
+If "forecast_date" is present, associate the prediction with that date.
 
 Answer the manager using only the structured summary.
 """

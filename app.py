@@ -12,19 +12,207 @@ does not depend on that choice.
 Run:
     streamlit run app.py
 """
-
+import base64
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 import joblib
+import os
+
 from genai_layer import ask_gemini
 
-st.set_page_config(page_title="Food Waste Analytics", layout="wide")
+st.set_page_config(
+    page_title="Food Waste Analytics", 
+    layout="wide"
+    )
 
+def set_background(image_path):
+    with open(image_path, "rb") as image_file:
+        encoded_image = base64.b64encode(
+            image_file.read()
+        ).decode()
+
+    st.markdown(
+        f"""
+        <style>
+
+        /* ================================
+           BACKGROUND
+           ================================ */
+
+        .stApp {{
+            background-image:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.45),
+                    rgba(0, 0, 0, 0.45)
+                ),
+                url("data:image/png;base64,{encoded_image}");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+
+        [data-testid="stHeader"] {{
+            background: rgba(0, 0, 0, 0);
+        }}
+
+        [data-testid="stSidebar"] {{
+            background: rgba(0, 0, 0, 0.75);
+        }}
+
+
+        /* ================================
+           GENERAL TEXT
+           ================================ */
+
+        .stApp p,
+        .stApp label {{
+            color: #f5f5f5;
+        }}
+
+        h1, h2, h3 {{
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }}
+
+        [data-testid="stCaptionContainer"] {{
+            color: #dddddd !important;
+        }}
+
+
+        /* ================================
+           CLEAN KPI CARDS
+           ================================ */
+
+        [data-testid="stMetric"] {{
+            background: #ffffff !important;
+            border-radius: 14px !important;
+            padding: 20px !important;
+            border: 1px solid #e5e7eb !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12) !important;
+        }}
+
+        /* KPI LABEL */
+
+        [data-testid="stMetric"] [data-testid="stMetricLabel"],
+        [data-testid="stMetric"] [data-testid="stMetricLabel"] *,
+        [data-testid="stMetric"] label,
+        [data-testid="stMetric"] label * {{
+            color: #555555 !important;
+            -webkit-text-fill-color: #555555 !important;
+        }}
+
+        /* KPI VALUE */
+
+        [data-testid="stMetric"] [data-testid="stMetricValue"],
+        [data-testid="stMetric"] [data-testid="stMetricValue"] *,
+        [data-testid="stMetric"] [data-testid="stMetricValue"] div,
+        [data-testid="stMetric"] [data-testid="stMetricValue"] span {{
+            color: #222222 !important;
+            -webkit-text-fill-color: #222222 !important;
+            font-size: 30px !important;
+            font-weight: 700 !important;
+        }}
+
+        /* KPI DELTA */
+
+        [data-testid="stMetric"] [data-testid="stMetricDelta"],
+        [data-testid="stMetric"] [data-testid="stMetricDelta"] * {{
+            color: #555555 !important;
+            -webkit-text-fill-color: #555555 !important;
+        }}
+
+        /* FORCE DARK TEXT INSIDE WHITE METRIC CARDS */
+
+        [data-testid="stMetric"] * {{
+            color: #222222 !important;
+        }}
+
+        [data-testid="stMetric"] label,
+        [data-testid="stMetric"] label * {{
+            color: #555555 !important;
+        }}
+
+
+        /* ================================
+           TABS
+           ================================ */
+
+        button[data-baseweb="tab"] {{
+            color: #ffffff !important;
+            font-weight: 600 !important;
+        }}
+
+
+        /* ================================
+           AI TEXT INPUT
+           ================================ */
+
+        .stTextInput input {{
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            color: #111111 !important;
+            border: 2px solid #4CAF50 !important;
+            border-radius: 10px !important;
+        }}
+
+        .stTextInput label {{
+            color: #ffffff !important;
+            font-weight: 600 !important;
+        }}
+
+
+        /* ================================
+           BUTTONS
+           ================================ */
+
+        /* PREDICT WASTE BUTTON */
+
+.stButton button {{
+    background-color: #ffffff !important;
+    color: #222222 !important;
+    border: 2px solid #4CAF50 !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    padding: 10px 24px !important;
+}}
+
+.stButton button:hover {{
+    background-color: #4CAF50 !important;
+    color: #ffffff !important;
+    border: 2px solid #4CAF50 !important;
+}}
+
+.stButton button p {{
+    color: #222222 !important;
+    font-weight: 700 !important;
+}}
+
+.stButton button:hover p {{
+    color: #ffffff !important;
+}}
+
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+BACKGROUND_PATH = os.path.join(
+    os.path.dirname(__file__),
+    "assets",
+    "dashboard_background.png"
+)
+
+set_background(BACKGROUND_PATH)
 DATA_PATH = "data/waste_data.csv"
 MODEL_PATH = "models/waste_model.pkl"
 
 model = joblib.load(MODEL_PATH)
+if "predicted_waste" not in st.session_state:
+    st.session_state.predicted_waste = None
+
+if "forecast_date" not in st.session_state:
+    st.session_state.forecast_date = None
 
 @st.cache_data
 def load_data(path: str) -> pd.DataFrame:
@@ -56,6 +244,7 @@ def build_structured_summary(df: pd.DataFrame) -> dict:
 
 
 def call_llm(question: str, summary: dict) -> str:
+    """Send the user's question and structured data to Gemini."""
     return ask_gemini(question, summary)
     """
     Placeholder for Phase 6/7. Swap this out once you pick an LLM API
@@ -115,7 +304,6 @@ tab1, tab2 = st.tabs(["Dashboard", "Ask the analyst"])
 with tab1:
        # ---------- Interactive Waste Forecast ----------
     st.subheader("🔮 Waste Forecast")
-    predicted_waste = None
     # Use the day after the latest available historical date
     latest_date = ml_df["date"].max()
     default_forecast_date = latest_date + pd.Timedelta(days=1)
@@ -155,7 +343,11 @@ with tab1:
         has_promotion = st.selectbox(
             "Is there a promotion?",
             ["No", "Yes"]
+        
         )
+        st.write("### Production and Sales Inputs")
+
+
 
     # ---------- Automatically calculate historical features ----------
 
@@ -214,27 +406,39 @@ with tab1:
 
     # ---------- Prediction ----------
 
-    if st.button("Predict Waste"):
+    # ---------- Prediction ----------
 
-        prediction_features = pd.DataFrame([{
-            "is_weekend": is_weekend,
-            "is_festival": 1 if is_festival == "Yes" else 0,
-            "has_promotion": 1 if has_promotion == "Yes" else 0,
-            "previous_waste": previous_waste,
-            "previous_week_waste": previous_week_waste,
-            "rolling_7_day_waste": rolling_7_day_waste,
-            "month": month
-        }])
+if st.button("Predict Waste"):
 
-        predicted_waste = model.predict(
-            prediction_features
-        )[0]
+    prediction_features = pd.DataFrame([{
+        "is_weekend": is_weekend,
+        "is_festival": 1 if is_festival == "Yes" else 0,
+        "has_promotion": 1 if has_promotion == "Yes" else 0,
+        "previous_waste": previous_waste,
+        "previous_week_waste": previous_week_waste,
+        "rolling_7_day_waste": rolling_7_day_waste,
+        "month": month
+    }])
 
-        st.success(
-            f"Predicted Waste for "
-            f"{forecast_date.strftime('%d %B %Y')}: "
-            f"{predicted_waste:.2f} units"
-        )
+    predicted_waste = model.predict(
+        prediction_features
+    )[0]
+
+    st.session_state.predicted_waste = float(predicted_waste)
+    st.session_state.forecast_date = forecast_date
+
+
+# ---------- Display Prediction Result ----------
+
+if st.session_state.predicted_waste is not None:
+
+    st.markdown("### 📊 Predicted Food Waste")
+
+    st.success(
+        f"Predicted Waste for "
+        f"{st.session_state.forecast_date.strftime('%d %B %Y')}: "
+        f"**{st.session_state.predicted_waste:.2f} units**"
+    )
 
     st.divider()
     left, right = st.columns(2)
@@ -261,15 +465,40 @@ with tab1:
         st.plotly_chart(fig4, use_container_width=True)
 
 with tab2:
-    st.write("Ask a question about the filtered data. This will be grounded in "
-             "pre-computed numbers once an LLM API is connected (Phase 6-7).")
+    st.subheader("🤖 AI Food Waste Analyst")
+
+    st.write(
+        "Ask questions about your restaurant's food waste, "
+        "predictions, and recommendations."
+    )
+
     summary = build_structured_summary(fdf)
 
-    if predicted_waste is not None:
-         summary["predicted_waste"] = round(float(predicted_waste), 2)
-    with st.expander("Structured summary sent to the LLM (debug view)"):
+    # Keep ML prediction available for GenAI
+    if st.session_state.predicted_waste is not None:
+        summary["predicted_waste"] = round(
+            st.session_state.predicted_waste, 2
+        )
+
+    if st.session_state.forecast_date is not None:
+        summary["forecast_date"] = str(
+            st.session_state.forecast_date.date()
+        )
+
+    with st.expander("View data sent to AI"):
         st.json(summary)
-    question = st.text_input("e.g. 'Why did we waste so much this week?'")
-    if st.button("Ask") and question:
-        answer = call_llm(question, summary)
-        st.markdown(answer)
+
+    question = st.text_input(
+        "Ask your question",
+        placeholder="Example: What is causing the most food waste?"
+    )
+
+    if st.button("🤖 Ask the AI", type="primary"):
+        if question.strip():
+            with st.spinner("Analyzing your food waste data..."):
+                answer = call_llm(question, summary)
+
+            st.markdown("### AI Recommendation")
+            st.write(answer)
+        else:
+            st.warning("Please enter a question first.")
