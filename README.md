@@ -1,78 +1,84 @@
-# 🍽️ Food Waste Analytics & AI-Powered Forecasting System
+# 🍽️ Food Waste Analytics for Restaurants
+### Data Analytics + Machine Learning + LLM/Generative AI + Streamlit
 
-An end-to-end **Data Science, Machine Learning, and Generative AI application** designed to help restaurants analyze food waste, forecast future waste levels, and generate intelligent data-driven insights.
-
-The system combines **Exploratory Data Analysis, Machine Learning forecasting, structured analytics, and Gemini-powered Generative AI** into an interactive Streamlit application.
+> An end-to-end AI-powered restaurant analytics system that combines **Data Analytics, Machine Learning forecasting, and Large Language Model (LLM) capabilities** to analyze food waste, predict future waste, and generate actionable business insights through an interactive Streamlit application.
 
 ---
 
 ## 🚀 Project Overview
 
-Food waste is a major operational and financial challenge for restaurants. Large amounts of food can be wasted due to inaccurate demand estimation, over-preparation, inventory issues, and changing customer behavior.
+Food waste is a major operational and financial challenge for restaurants. Over-preparation, changing demand, promotions, festivals, weekends, weather conditions, and historical consumption patterns can contribute to unnecessary food waste.
 
-This project provides an AI-powered solution that transforms restaurant waste data into actionable insights.
+This project provides an end-to-end solution that transforms restaurant waste data into:
 
-The application allows users to:
+- 📊 Interactive analytics
+- 📈 Machine Learning predictions
+- 🤖 LLM-powered insights
+- 💡 Business recommendations
+- 🎯 Decision-support information
 
-- 📊 Analyze historical food waste data
-- 📈 Forecast future food waste using Machine Learning
-- 🔍 Identify waste patterns and trends
-- 📋 Generate structured analytical summaries
-- 🤖 Ask questions about the data using Generative AI
-- 💡 Receive AI-powered recommendations and insights
-- 🎯 Support better inventory and food preparation decisions
+The application combines **Data Analytics + Machine Learning + LLM/Generative AI + Streamlit** into a single workflow.
 
 ---
 
-## 🎯 Key Objectives
+## 🎯 What This Project Does
 
-- Analyze restaurant food waste patterns
-- Understand major factors contributing to waste
-- Build a Machine Learning model for waste forecasting
-- Convert analytical results into structured summaries
-- Integrate Generative AI for natural-language data analysis
-- Provide an interactive dashboard for users
-- Demonstrate an end-to-end Data Science + AI/ML workflow
+The system performs four major functions:
+
+### 1. 📊 Data Analytics
+
+Analyzes historical restaurant food-waste data to identify:
+
+- Total waste
+- Waste cost
+- Average daily waste
+- Most wasted dishes
+- Weekday vs weekend patterns
+- Weather-related patterns
+- Promotional effects
+- Festival-related effects
+- Historical waste trends
+
+Interactive filters allow users to explore the data dynamically.
 
 ---
 
-## 🏗️ System Architecture
+### 2. 🤖 Machine Learning Forecasting
+
+A Machine Learning pipeline predicts future food waste using historical and operational features.
+
+The project evaluates:
+
+- Baseline model
+- Random Forest Regressor
+- XGBoost Regressor
+
+Models are evaluated using:
+
+- MAE — Mean Absolute Error
+- RMSE — Root Mean Squared Error
+
+The best-performing model based on MAE is selected and saved for application use.
+
+---
+
+### 3. 🧠 LLM / Generative AI Layer
+
+The project integrates **Google Gemini as the Large Language Model (LLM)**.
+
+The LLM is used to convert analytical results and Machine Learning outputs into understandable business insights.
+
+The AI assistant can help answer questions such as:
 
 ```text
-                    ┌─────────────────────────┐
-                    │     Restaurant Data     │
-                    │      CSV / Dataset      │
-                    └────────────┬────────────┘
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │     Data Processing     │
-                    │     Pandas / NumPy      │
-                    └────────────┬────────────┘
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │    EDA & Analytics      │
-                    │ Pandas / Plotly / Charts │
-                    └────────────┬────────────┘
-                                 │
-                 ┌───────────────┴────────────────┐
-                 ▼                                ▼
-      ┌─────────────────────┐          ┌─────────────────────┐
-      │ Machine Learning    │          │ Structured Summary  │
-      │ Waste Forecasting   │          │ JSON / Analytics    │
-      │ Scikit-learn        │          │ Python              │
-      └──────────┬──────────┘          └──────────┬──────────┘
-                 │                                │
-                 └──────────────┬─────────────────┘
-                                ▼
-                    ┌─────────────────────────┐
-                    │     GenAI Layer        │
-                    │    Gemini API / LLM    │
-                    └────────────┬────────────┘
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │   Streamlit Application │
-                    │ Dashboard + AI Assistant │
-                    └─────────────────────────┘
+Which dish generates the most waste?
+
+How does weekend waste compare with weekday waste?
+
+What are the major food-waste patterns?
+
+What does the forecast indicate?
+
+What actions can reduce food waste?
+
+Which areas should the restaurant focus on?
