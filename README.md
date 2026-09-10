@@ -2,13 +2,13 @@
 
 ### RAG-Based Document Intelligence & AI Knowledge Assistant
 
-> An AI-powered enterprise knowledge platform that allows users to upload private company documents and interact with them using natural language. The system uses **Retrieval-Augmented Generation (RAG)** to retrieve relevant information from documents and generate accurate, context-aware answers with source citations.
+> An AI-powered enterprise knowledge platform that allows users to upload private company documents and interact with them using natural language. The system uses **Retrieval-Augmented Generation (RAG)** to retrieve relevant information and generate document-grounded answers with source citations.
 
 ---
 
 ## 📌 Overview
 
-Organizations often store important information across hundreds of documents such as:
+Organizations store important information across hundreds of documents, including:
 
 * HR policies
 * Employee handbooks
@@ -16,15 +16,13 @@ Organizations often store important information across hundreds of documents suc
 * Product manuals
 * Financial reports
 * Company policies
-* Training documents
+* Training materials
 
-Finding specific information manually can be time-consuming.
+Searching through these documents manually can be time-consuming.
 
-This project solves that problem by providing an **AI-powered knowledge assistant**.
+This project solves that problem by providing an **AI-powered knowledge assistant** where users can upload documents and ask questions using natural language.
 
-Users can upload their documents and ask questions in natural language.
-
-### Example
+### 💡 Example
 
 **User:**
 
@@ -41,68 +39,69 @@ Users can upload their documents and ask questions in natural language.
 ## 🎯 Project Objectives
 
 * Build an AI assistant for private organizational knowledge
-* Allow users to upload and manage documents
-* Extract and process information from documents
+* Upload and manage documents
+* Extract and process document content
 * Enable semantic document search
 * Implement Retrieval-Augmented Generation (RAG)
 * Generate context-aware answers using an LLM
-* Provide source citations for generated answers
+* Provide source citations
 * Build a scalable API-based architecture
-* Create a modern web interface
+* Develop a modern web interface
 * Deploy the complete application
 
 ---
 
-## 🧠 How It Works
-
-The complete workflow is:
+# 🧠 How It Works
 
 ```text
-        USER UPLOADS DOCUMENTS
+                 USER
                   │
                   ▼
-        DOCUMENT PROCESSING
+          Upload Documents
                   │
                   ▼
-          TEXT EXTRACTION
+         Document Processing
                   │
                   ▼
-          TEXT CHUNKING
+          Text Extraction
                   │
                   ▼
-          TEXT EMBEDDINGS
+            Text Chunking
                   │
                   ▼
-          VECTOR DATABASE
-                  │
-                  │
-        USER ASKS QUESTION
+          Text Embeddings
                   │
                   ▼
-        SEMANTIC RETRIEVAL
+          Vector Database
+                  │
+                  │
+             User Query
                   │
                   ▼
-      RELEVANT DOCUMENT CHUNKS
+         Semantic Retrieval
                   │
                   ▼
-               LLM
+        Relevant Text Chunks
                   │
                   ▼
-       AI GENERATED ANSWER
+                 LLM
                   │
                   ▼
-          SOURCE CITATIONS
+          AI Generated Answer
+                  │
+                  ▼
+           Source Citations
 ```
 
 ---
 
 # 🔍 What is RAG?
 
-**RAG stands for Retrieval-Augmented Generation.**
+**RAG = Retrieval-Augmented Generation**
 
-Instead of asking the AI to answer using only its general knowledge, the system first searches the user's documents for relevant information.
+Instead of relying only on an LLM's general knowledge, the system first searches the user's documents for relevant information.
 
-The retrieved information is then provided to the LLM so that it can generate an answer based on the available documents.
+That information is then provided to the LLM as context so it can generate an answer based on the available documents.
 
 ### Simple Flow
 
@@ -120,7 +119,7 @@ Generate Answer
 Show Sources
 ```
 
-This helps reduce incorrect or unsupported answers.
+This helps reduce unsupported or inaccurate answers.
 
 ---
 
@@ -128,20 +127,18 @@ This helps reduce incorrect or unsupported answers.
 
 ## 📄 Document Upload
 
-Users can upload organizational documents such as:
+Supports organizational documents such as:
 
 * PDF
 * DOCX
 * TXT
 * CSV
 
----
-
 ## 🔎 Semantic Search
 
-The system searches documents based on **meaning**, rather than relying only on exact keyword matches.
+Searches documents based on **meaning**, rather than relying only on exact keyword matches.
 
-For example:
+**Example:**
 
 ```text
 User:
@@ -154,11 +151,9 @@ Result:
 Relevant information found
 ```
 
----
-
 ## 🧠 AI Question Answering
 
-Users can ask natural-language questions about their documents.
+Users can ask natural-language questions about their uploaded documents.
 
 Examples:
 
@@ -174,13 +169,9 @@ What are the company's working hours?
 What are the key findings in this report?
 ```
 
----
-
 ## 📚 Source Citations
 
-The application provides the source used to generate the answer.
-
-Example:
+The application provides the document source used to generate the answer.
 
 ```text
 Answer:
@@ -191,15 +182,11 @@ Employee Handbook.pdf
 Page 18
 ```
 
-This makes the AI responses more transparent and verifiable.
-
----
+This makes AI responses more **transparent and verifiable**.
 
 ## 💬 Conversational AI
 
 Users can ask follow-up questions without restarting the conversation.
-
-Example:
 
 ```text
 User:
@@ -214,8 +201,6 @@ Can unused leave be carried forward?
 AI:
 According to the same policy, unused leave can...
 ```
-
----
 
 ## 📊 Knowledge Management
 
@@ -233,80 +218,53 @@ Users can:
 # 🏗️ System Architecture
 
 ```text
-                    ┌─────────────────────┐
-                    │       React         │
-                    │      Frontend       │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │       FastAPI       │
-                    │       Backend       │
-                    └──────────┬──────────┘
-                               │
-              ┌────────────────┼────────────────┐
-              │                │                │
-              ▼                ▼                ▼
-       Document Parser    Vector Search       LLM
-              │                │                │
-              ▼                ▼                │
-       Text Processing   Vector Database       │
-              │                                 │
-              └────────────────┬────────────────┘
-                               ▼
-                       AI Generated Answer
-                               │
-                               ▼
-                        Source Citations
+                 ┌──────────────────────┐
+                 │        React         │
+                 │       Frontend       │
+                 └──────────┬───────────┘
+                            │
+                            ▼
+                 ┌──────────────────────┐
+                 │       FastAPI        │
+                 │       Backend        │
+                 └──────────┬───────────┘
+                            │
+            ┌───────────────┼───────────────┐
+            │               │               │
+            ▼               ▼               ▼
+     ┌────────────┐  ┌────────────┐  ┌────────────┐
+     │  Document  │  │  Semantic  │  │    LLM     │
+     │  Processing│  │  Retrieval │  │            │
+     └─────┬──────┘  └─────┬──────┘  └────────────┘
+           │               │
+           ▼               ▼
+     ┌────────────┐  ┌────────────┐
+     │    Text    │  │   Vector   │
+     │ Processing │  │  Database  │
+     └────────────┘  └────────────┘
+            │               │
+            └───────┬───────┘
+                    ▼
+             ┌───────────────┐
+             │ AI Answer +   │
+             │ Source        │
+             │ Citations     │
+             └───────────────┘
 ```
 
 ---
 
 # 🛠️ Technology Stack
 
-## Frontend
-
-* React
-* Vite
-* JavaScript
-* CSS
-
-## Backend
-
-* Python
-* FastAPI
-* Uvicorn
-
-## AI / Machine Learning
-
-* Large Language Models (LLMs)
-* Natural Language Processing (NLP)
-* Text Embeddings
-* Retrieval-Augmented Generation (RAG)
-
-## Database
-
-* PostgreSQL
-* pgvector
-
-## Document Processing
-
-* PyPDF
-* python-docx
-* Pandas
-
-## Development Tools
-
-* Git
-* GitHub
-* VS Code
-* Docker
-
-## Deployment
-
-* Frontend: Vercel / Render
-* Backend: Render
-* Database: PostgreSQL
+| Category                | Technologies                 |
+| ----------------------- | ---------------------------- |
+| **Frontend**            | React, Vite, JavaScript, CSS |
+| **Backend**             | Python, FastAPI, Uvicorn     |
+| **AI / ML**             | LLMs, NLP, Embeddings, RAG   |
+| **Database**            | PostgreSQL, pgvector         |
+| **Document Processing** | PyPDF, python-docx, Pandas   |
+| **Development**         | Git, GitHub, VS Code, Docker |
+| **Deployment**          | Vercel / Render, PostgreSQL  |
 
 ---
 
@@ -345,7 +303,6 @@ enterprise-ai-knowledge-platform/
 │   └── processed/
 │
 ├── tests/
-│
 ├── docker/
 │
 ├── .gitignore
@@ -358,57 +315,53 @@ enterprise-ai-knowledge-platform/
 
 # 🔄 RAG Pipeline
 
-The RAG pipeline consists of several stages.
+The RAG pipeline consists of the following stages:
 
 ### 1. Document Ingestion
 
-Documents are uploaded into the platform.
-
-```text
-PDF / DOCX / TXT / CSV
-```
+Upload PDF, DOCX, TXT, or CSV documents.
 
 ### 2. Text Extraction
 
-Text is extracted from the uploaded documents.
+Extract readable text from the uploaded documents.
 
 ### 3. Text Chunking
 
-Large documents are divided into smaller meaningful sections.
+Split large documents into smaller meaningful sections.
 
 ### 4. Embedding Generation
 
-Each text chunk is converted into a numerical representation called an **embedding**.
+Convert each text chunk into a numerical representation called an **embedding**.
 
 ### 5. Vector Storage
 
-Embeddings are stored inside the vector database.
+Store embeddings inside the vector database.
 
 ### 6. User Query
 
-The user asks a question.
+The user asks a question in natural language.
 
 ### 7. Retrieval
 
-The system searches the vector database for the most relevant chunks.
+Search the vector database for the most relevant document chunks.
 
 ### 8. Context Construction
 
-The retrieved information is combined with the user's question.
+Combine the retrieved information with the user's question.
 
 ### 9. LLM Generation
 
-The LLM generates the final answer using the retrieved context.
+Send the context to the LLM to generate the final answer.
 
 ### 10. Source Attribution
 
-The application displays the document and page/source used for the response.
+Display the document and page/source used for the response.
 
 ---
 
-# 🔐 Security Considerations
+# 🔐 Security
 
-Since this platform is designed for enterprise information, security is an important part of the system.
+Because the platform handles potentially sensitive organizational information, security is an important part of the architecture.
 
 Planned security features include:
 
@@ -420,7 +373,7 @@ Planned security features include:
 * Input validation
 * File type validation
 * File size restrictions
-* Protection against prompt injection
+* Prompt-injection protection
 * Sensitive information handling
 
 ---
@@ -437,12 +390,12 @@ The platform can be extended with:
 * Reranking
 * RAG evaluation
 * Hallucination detection
-* AI response confidence scoring
+* AI confidence scoring
 * Conversation memory
 * Document versioning
 * Analytics dashboard
 * Query history
-* Feedback system
+* User feedback system
 * Model monitoring
 * Dockerized deployment
 * Cloud infrastructure
@@ -451,32 +404,30 @@ The platform can be extended with:
 
 # 🎓 What This Project Demonstrates
 
-This project demonstrates practical knowledge across multiple areas of modern AI engineering.
-
-### Data & Analytics
+## 📊 Data & Analytics
 
 * Data processing
 * Document processing
 * Information retrieval
 * Data management
 
-### Data Science & ML
+## 🤖 Data Science & Machine Learning
 
-* NLP
-* Embeddings
+* Natural Language Processing
+* Text embeddings
 * Semantic similarity
 * Retrieval systems
 
-### AI Engineering
+## 🧠 AI Engineering
 
 * LLM integration
-* RAG
+* Retrieval-Augmented Generation
 * Vector databases
 * Prompt engineering
 * AI pipelines
 * AI APIs
 
-### Software Engineering
+## 💻 Software Engineering
 
 * REST APIs
 * FastAPI
@@ -486,6 +437,22 @@ This project demonstrates practical knowledge across multiple areas of modern AI
 * Testing
 * Docker
 * Deployment
+
+---
+
+# 📊 RAG Evaluation
+
+The system can be evaluated using metrics such as:
+
+* Retrieval accuracy
+* Context relevance
+* Answer relevance
+* Faithfulness
+* Retrieval precision
+* Retrieval recall
+* Response latency
+
+The goal is not simply to generate answers, but to produce **useful, relevant, and document-grounded responses**.
 
 ---
 
@@ -499,9 +466,7 @@ git clone https://github.com/your-username/enterprise-ai-knowledge-platform.git
 cd enterprise-ai-knowledge-platform
 ```
 
----
-
-## 2. Create Python Environment
+## 2. Create a Python Environment
 
 ```bash
 python -m venv venv
@@ -519,15 +484,11 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
----
-
 ## 3. Install Backend Dependencies
 
 ```bash
 pip install -r backend/requirements.txt
 ```
-
----
 
 ## 4. Configure Environment Variables
 
@@ -537,18 +498,16 @@ Create:
 backend/.env
 ```
 
-Add the required API and database configuration:
+Add the required configuration:
 
 ```env
 LLM_API_KEY=your_api_key
 DATABASE_URL=your_database_url
 ```
 
-> Never commit `.env` files or API keys to GitHub.
+> ⚠️ Never commit `.env` files or API keys to GitHub.
 
----
-
-## 5. Start Backend
+## 5. Start the Backend
 
 ```bash
 cd backend
@@ -562,9 +521,7 @@ Backend:
 http://127.0.0.1:8000
 ```
 
----
-
-## 6. Start Frontend
+## 6. Start the Frontend
 
 Open another terminal:
 
@@ -590,15 +547,15 @@ The project will include tests for:
 
 * Document processing
 * Text extraction
-* Chunking
+* Text chunking
 * Embedding generation
-* Retrieval
+* Semantic retrieval
 * API endpoints
 * RAG responses
 * Authentication
 * File validation
 
-Run tests using:
+Run tests with:
 
 ```bash
 pytest
@@ -606,48 +563,48 @@ pytest
 
 ---
 
-# 📊 Evaluation
-
-The RAG system can be evaluated using metrics such as:
-
-* Retrieval accuracy
-* Context relevance
-* Answer relevance
-* Faithfulness
-* Response latency
-* Retrieval precision
-* Retrieval recall
-
-The goal is not only to generate answers, but to generate **useful, relevant, and document-grounded answers**.
-
----
-
 # 🌐 Deployment
 
-The application can be deployed using:
-
 ```text
-React Frontend
-      ↓
-Vercel / Render
-      ↓
-FastAPI Backend
-      ↓
-PostgreSQL + pgvector
-      ↓
-LLM API
+┌───────────────────┐
+│   React Frontend  │
+└─────────┬─────────┘
+          ▼
+   Vercel / Render
+          │
+          ▼
+┌───────────────────┐
+│   FastAPI Backend │
+└─────────┬─────────┘
+          ▼
+┌───────────────────┐
+│ PostgreSQL +      │
+│ pgvector          │
+└─────────┬─────────┘
+          ▼
+┌───────────────────┐
+│     LLM API       │
+└───────────────────┘
 ```
 
 ---
 
 # 🔮 Vision
 
-The long-term goal of this project is to build a **production-ready enterprise AI knowledge platform** that allows organizations to securely interact with their internal knowledge using natural language.
+The long-term goal is to build a **production-ready enterprise AI knowledge platform** that allows organizations to securely interact with internal knowledge using natural language.
 
 Instead of manually searching through hundreds of documents:
 
 ```text
-Documents → AI → Answers → Sources → Decisions
+Documents
+    ↓
+   AI
+    ↓
+ Answers
+    ↓
+ Sources
+    ↓
+ Decisions
 ```
 
 ---
@@ -656,19 +613,19 @@ Documents → AI → Answers → Sources → Decisions
 
 **Prajwal Sortur**
 
-Data Analyst • Data Scientist • AI/ML Engineer • AI Engineer
+**Data Analyst • Data Scientist • AI/ML Engineer • AI Engineer**
 
 Interested in building **data-driven, machine learning, and intelligent AI-powered applications**.
 
 ---
 
-## ⭐ If you find this project interesting
+## ⭐ Support
 
-Give the repository a ⭐ and feel free to explore the implementation.
+If you find this project interesting, consider giving the repository a ⭐ and exploring the implementation.
 
 ---
 
-### 📌 Project Status
+## 📌 Project Status
 
 🚧 **Currently in Development**
 
