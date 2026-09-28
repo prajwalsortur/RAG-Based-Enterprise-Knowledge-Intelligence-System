@@ -19,7 +19,7 @@ Finding relevant information manually can be time-consuming.
 
 This project provides an AI-powered interface where users can ask questions in natural language. The system retrieves relevant information from enterprise documents and uses an LLM to generate an answer based on the retrieved context.
 
-### Basic Workflow
+### Workflow
 
 ```text
 Enterprise Documents
