@@ -1,1 +1,93 @@
-# RAG-Based Enterprise Knowledge Intelligence System
+# RAG-BASED ENTERPRISE KNOWLEDGE INTELLIGENCE SYSTEM
+
+A Retrieval-Augmented Generation (RAG) based system that allows users to ask questions about enterprise documents and receive answers based on the information available in those documents.
+
+## 🎯 Project Objective
+
+The main goal of this project is to build an AI-powered knowledge system that can:
+
+* Load enterprise documents
+* Extract and process document content
+* Split documents into smaller chunks
+* Convert text into embeddings
+* Store document embeddings
+* Retrieve relevant information for a user's question
+* Generate answers using an LLM based on the retrieved information
+
+## 🏗️ RAG Workflow
+
+```text
+Enterprise Documents
+        ↓
+Document Loading
+        ↓
+Text Extraction
+        ↓
+Text Chunking
+        ↓
+Text Embeddings
+        ↓
+Vector Database
+        ↓
+User Question
+        ↓
+Similarity Search
+        ↓
+Relevant Document Chunks
+        ↓
+LLM
+        ↓
+Final Answer
+```
+
+## 🛠️ Technologies
+
+* Python
+* RAG
+* Embeddings
+* Vector Database
+* Large Language Model (LLM)
+* FastAPI
+* HTML / CSS / JavaScript
+
+## 📁 Project Structure
+
+```text
+RAG-BASED-ENTERPRISE-KNOWLEDGE-INTELLIGENCE-SYSTEM/
+│
+├── data/
+│   └── documents/
+│
+├── src/
+│
+├── .env
+├── .gitignore
+├── requirements.txt
+└── README.md
+```
+
+## ✨ Features
+
+* 📄 Enterprise document processing
+* 🔍 Semantic document search
+* 🧠 Context-aware AI responses
+* 📚 Knowledge retrieval from uploaded documents
+* ⚡ Backend API
+* 💬 Question-answering interface
+
+## 🚀 Project Status
+
+**Currently in development.**
+
+The system will be built step by step, with each component tested before moving to the next stage.
+
+## 👨‍💻 Author
+
+**Prajwal Sortur**
+
+* Data Science
+* AI/ML
+* Generative AI
+* Data Analytics
+* AI Engineering
+
