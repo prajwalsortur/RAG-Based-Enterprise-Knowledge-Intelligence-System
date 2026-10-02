@@ -52,19 +52,27 @@ Final Answer
 
 ## 📁 Project Structure
 
-```text
 RAG-BASED-ENTERPRISE-KNOWLEDGE-INTELLIGENCE-SYSTEM/
 │
 ├── data/
 │   └── documents/
+│       ├── company_policy.pdf
+│       ├── employee_handbook.pdf
+│       └── ...
 │
 ├── src/
+│   ├── document_loader.py
+│   ├── chunking.py
+│   ├── embeddings.py
+│   ├── vector_store.py
+│   ├── retriever.py
+│   ├── llm.py
+│   └── main.py
 │
 ├── .env
 ├── .gitignore
 ├── requirements.txt
 └── README.md
-```
 
 ## ✨ Features
 
