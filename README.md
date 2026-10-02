@@ -85,6 +85,10 @@ RAG-BASED-ENTERPRISE-KNOWLEDGE-INTELLIGENCE-SYSTEM/
 
 ## 🚀 Project Status
 
+## System Architecture
+
+![RAG Architecture](docs/rag-architecture.png)
+
 **Currently in development.**
 
 The system will be built step by step, with each component tested before moving to the next stage.
