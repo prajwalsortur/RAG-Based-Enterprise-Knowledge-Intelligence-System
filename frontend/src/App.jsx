@@ -111,14 +111,21 @@ function App() {
         </div>
 
         <form className="question-form" onSubmit={sendQuestion}>
-          <input
-            type="text"
-            value={question}
-            onChange={(event) => setQuestion(event.target.value)}
-            placeholder="Ask a question about your documents..."
-            aria-label="Your question"
-            disabled={loading}
-          />
+          
+<input
+  type="text"
+  value={question}
+  onChange={(event) => setQuestion(event.target.value)}
+  onKeyDown={(event) => {
+    if (event.key === "Enter") {
+      sendQuestion();
+    }
+  }}
+  placeholder="Ask a question about your documents..."
+  aria-label="Your question"
+  disabled={loading}
+/>
+
 
           <button type="submit" disabled={loading || !question.trim()}>
             {loading ? 'Sending...' : 'Send'}
