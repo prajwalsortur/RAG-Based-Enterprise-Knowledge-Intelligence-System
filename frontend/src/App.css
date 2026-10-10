@@ -231,3 +231,24 @@
     padding: 0 12px 16px;
   }
 }
+
+/* Style the Clear Chat button beside the chat heading. */
+.clear-chat-button {
+  padding: 9px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.clear-chat-button:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+.clear-chat-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

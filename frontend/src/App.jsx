@@ -7,6 +7,11 @@ import './App.css'
 function App() {
   const [question, setQuestion] = useState('')
   const [messages, setMessages] = useState([])
+  // Clear the current conversation so the user can start fresh.
+const clearChat = () => {
+  setMessages([]);
+  setQuestion("");
+};
   const [loading, setLoading] = useState(false)
 
   // Send a question to the existing FastAPI /ask endpoint.
@@ -68,10 +73,23 @@ function App() {
       </header>
 
       <section className="chat-container">
-        <div className="chat-heading">
-          <h2>Knowledge Assistant</h2>
-          <p>Ask questions about your enterprise documents.</p>
-        </div>
+        
+<div className="chat-heading">
+  <div>
+    <h2>Knowledge Assistant</h2>
+    <p>Ask questions about your enterprise documents.</p>
+  </div>
+
+  <button
+    type="button"
+    className="clear-chat-button"
+    onClick={clearChat}
+    disabled={loading || messages.length === 0}
+  >
+    Clear Chat
+  </button>
+</div>
+
 
         <div className="messages">
           {messages.length === 0 && (
