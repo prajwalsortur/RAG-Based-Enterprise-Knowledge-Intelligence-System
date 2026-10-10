@@ -208,11 +208,6 @@ Retrieval-augmented generation can reduce hallucinations, but it does not guaran
 * [ ] Add automated tests and retrieval-quality evaluation
 * [ ] Prepare the application for deployment
 
-## Future Scope
-
-The system can be extended to support multiple enterprise knowledge sources, document uploads, additional document formats, improved retrieval strategies, access control, and deployment.
-
-These enhancements will be implemented incrementally after the current workflow is completed and tested.
 
 ## Project Status
 
