@@ -12,6 +12,7 @@ Client -> FastAPI -> rag_pipeline.py -> RAG components -> Answer
 """
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from backend.rag_pipeline import ask_question
@@ -20,6 +21,17 @@ from backend.rag_pipeline import ask_question
 # Create the FastAPI application.
 app = FastAPI(title="Enterprise Knowledge Intelligence System")
 
+# Allow the local React frontend to communicate with this API.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
+)
 
 class QuestionRequest(BaseModel):
     """Request format expected by the /ask endpoint."""
