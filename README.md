@@ -1,224 +1,294 @@
 # RAG-Based Enterprise Knowledge Intelligence System
 
-An AI-powered knowledge assistant that uses Retrieval-Augmented Generation (RAG) to retrieve relevant information from enterprise documents and generate context-grounded answers.
+An AI-powered enterprise knowledge assistant that answers questions using information retrieved from company documents. The system uses Retrieval-Augmented Generation (RAG) to retrieve relevant document content and generate context-based answers.
 
-The goal of this project is to make organizational knowledge easier to access while reducing unsupported AI responses.
+## Overview
 
-## Project Overview
+Employees often need to search through company documents to find information about workplace policies, working hours, leave policies, and other internal information.
 
-Enterprise organizations maintain important information in documents such as HR policies, employee guidelines, technical documentation, and internal knowledge bases. Finding specific information manually can be time-consuming.
+This project provides a conversational interface where users can ask questions in natural language and receive answers based on the available knowledge base.
 
-This project combines document processing, semantic search, vector storage, and Large Language Model (LLM) generation to build a knowledge intelligence system.
+## Features
 
-## Objectives
-
-* Extract text from enterprise PDF documents.
-* Split extracted text into smaller, meaningful chunks.
-* Convert text chunks into numerical embeddings.
-* Store embeddings in a vector database.
-* Retrieve relevant information based on user queries.
-* Generate answers using retrieved context and an LLM.
-* Provide a frontend for interacting with the knowledge system.
-* Build the system incrementally with an emphasis on maintainability and answer reliability.
+- **PDF Document Loading:** Extracts text from enterprise PDF documents.
+- **Text Chunking:** Splits extracted text into smaller chunks for efficient retrieval.
+- **Text Embeddings:** Converts text chunks into numerical representations for semantic search.
+- **Vector Database:** Uses ChromaDB to store and retrieve document embeddings.
+- **Semantic Search:** Retrieves relevant document chunks based on user questions.
+- **LLM-Based Answer Generation:** Uses the Groq API to generate answers from retrieved context.
+- **FastAPI Backend:** Provides an API endpoint for processing questions.
+- **React Frontend:** Provides an interactive chat interface.
+- **Markdown Rendering:** Displays formatted AI responses.
+- **Enter-to-Send:** Allows users to submit questions using the Enter key.
+- **Clear Chat:** Allows users to clear the current conversation.
+- **Automatic Chat Scrolling:** Keeps the latest messages visible as the conversation grows.
+- **Error Handling:** Displays an error message when the backend cannot process a request.
 
 ## Technology Stack
 
-| Technology      | Purpose                                    |
-| --------------- | ------------------------------------------ |
-| Python          | Core RAG pipeline and backend logic        |
-| PyMuPDF         | Extracting text from PDF documents         |
-| Embedding model | Converting text into numerical vectors     |
-| ChromaDB        | Storing and retrieving document embeddings |
-| Groq API        | LLM-powered answer generation              |
-| FastAPI         | Backend API development                    |
-| React           | Frontend user interface                    |
-| Vite            | Frontend development and build tooling     |
-| Git and GitHub  | Version control and project tracking       |
+| Component | Technology |
+|---|---|
+| Programming Language | Python |
+| Frontend | React, Vite, JavaScript |
+| Backend | FastAPI |
+| PDF Processing | PyMuPDF |
+| Text Chunking | LangChain Text Splitters |
+| Embedding Model | Sentence Transformers |
+| Vector Database | ChromaDB |
+| Large Language Model API | Groq |
+| API Communication | REST API |
+| Version Control | Git and GitHub |
 
-## RAG Architecture
+## System Architecture
 
-The system follows this workflow:
+```text
+Enterprise PDF Documents
+          |
+          v
+    PDF Text Loader
+          |
+          v
+      Text Chunking
+          |
+          v
+   Embedding Model
+          |
+          v
+   ChromaDB Vector Store
+          |
+          v
+     User Question
+          |
+          v
+   Question Embedding
+          |
+          v
+  Relevant Chunk Retrieval
+          |
+          v
+     Groq LLM
+          |
+          v
+     Generated Answer
+          |
+          v
+      FastAPI Backend
+          |
+          v
+       React Chat UI
+```
 
-1. **Document ingestion:** Load a PDF containing enterprise knowledge.
-2. **Text extraction:** Extract readable text using PyMuPDF.
-3. **Text chunking:** Divide the extracted text into smaller chunks.
-4. **Embedding generation:** Convert chunks into numerical vectors.
-5. **Vector storage:** Store chunks and their embeddings in ChromaDB.
-6. **Retrieval:** Search for relevant chunks based on the user's question.
-7. **LLM generation:** Send the retrieved context and question to the Groq-powered language model.
-8. **Response delivery:** Return the generated answer through the application interface.
+## How It Works
 
-## Work Completed So Far
+1. **Document Loading:** The system extracts text from the enterprise knowledge PDF.
+2. **Text Chunking:** The extracted text is divided into smaller, manageable chunks.
+3. **Embedding Generation:** The embedding model converts the chunks into numerical vectors.
+4. **Vector Storage:** ChromaDB stores the vectors and their associated text.
+5. **Question Processing:** The user submits a question through the React chat interface.
+6. **Relevant Information Retrieval:** The system searches the vector database for relevant chunks.
+7. **Answer Generation:** The retrieved context is passed to the Groq-powered language model to generate an answer.
+8. **Answer Display:** FastAPI returns the answer to the frontend, where it is displayed in the chat interface.
 
-### 1. Project Setup
-
-* Created the GitHub repository and local project structure.
-* Organized the project into `backend`, `data`, and `frontend` directories.
-* Created a Python virtual environment.
-* Configured Git and `.gitignore` to exclude virtual environments, Python cache files, and environment secrets.
-
-### 2. PDF Document Loader
-
-* Created `backend/document_loader.py`.
-* Used PyMuPDF to extract text from PDF documents.
-* Added a sample enterprise knowledge document at `data/enterprise_knowledge.pdf`.
-* Tested the document loader and verified that the expected text could be extracted.
-
-The sample document contains fictional TechNova Solutions HR information, including working hours, paid leave, remote-work guidelines, and IT support details.
-
-### 3. Text Chunking
-
-* Created `backend/text_splitter.py`.
-* Implemented the text-splitting stage to divide extracted document content into smaller chunks.
-* Connected the chunking stage to the document-loading workflow.
-
-### 4. Embedding Generation
-
-* Created `backend/embedding_model.py`.
-* Implemented the embedding-generation stage.
-* Connected document chunks to the embedding process.
-
-### 5. Vector Database and Retrieval
-
-* Created `backend/vector_store.py`.
-* Integrated ChromaDB for vector storage.
-* Implemented storage and retrieval functionality.
-* Tested the pipeline to confirm that document chunks and embeddings could be stored in the collection.
-
-### 6. LLM Answer Generation
-
-* Implemented the LLM generation stage using the Groq API.
-* Connected the language model to the retrieval workflow.
-* Prepared the pipeline to generate answers using retrieved document context.
-
-### 7. Frontend Setup
-
-* Created the `frontend` application structure.
-* Initialized the React and Vite frontend project.
-* Started organizing the frontend files for the knowledge assistant interface.
-
-## Current Project Structure
+## Project Structure
 
 ```text
 RAG-KNOWLEDGE-SYSTEM/
-│
-├── backend/
-│   ├── document_loader.py
-│   ├── text_splitter.py
-│   ├── embedding_model.py
-│   ├── vector_store.py
-│   └── main.py
-│
-├── data/
-│   └── enterprise_knowledge.pdf
-│
-├── frontend/
-│   ├── src/
-│   │   └── main.jsx
-│   ├── public/
-│   ├── package.json
-│   ├── index.html
-│   └── ...
-│
-├── .gitignore
-└── README.md
+|
+|-- backend/
+|   |-- document_loader.py
+|   |-- text_splitter.py
+|   |-- embedding_model.py
+|   |-- vector_store.py
+|   |-- llm_generator.py
+|   |-- rag_pipeline.py
+|   |-- main.py
+|
+|-- frontend/
+|   |-- src/
+|   |   |-- App.jsx
+|   |   |-- App.css
+|   |   |-- index.css
+|   |   |-- main.jsx
+|   |-- package.json
+|   |-- index.html
+|
+|-- data/
+|   |-- enterprise_knowledge.pdf
+|
+|-- chroma_db/
+|-- .gitignore
+|-- README.md
 ```
 
-*Note: This structure reflects the files established during development. Additional frontend files and configuration files may exist in the repository.*
+*Note: Generated database files, environment files, and other local files may vary depending on your setup. The structure above highlights the main project components.*
 
-## Sample Use Case
+## Prerequisites
 
-A user wants to know the organization's remote-work policy.
+Install the following before running the project:
 
-**User question:**
-
-"What is the remote-work policy?"
-
-**System workflow:**
-
-* The system processes the question.
-* ChromaDB retrieves relevant document chunks.
-* The retrieved context is provided to the language model.
-* The model generates an answer based on the available context.
-
-**Expected answer based on the sample document:**
-
-"Employees can work remotely up to two days per week, subject to manager approval."
+- Python
+- Node.js and npm
+- Git
+- A Groq API key
 
 ## Installation and Setup
 
-### Prerequisites
+### 1. Clone the repository
 
-* Python installed on your system.
-* Node.js and npm installed.
-* Git installed.
-* A Groq API key for LLM generation.
+```bash
+git clone https://github.com/prajwalsortur/RAG-Based-Enterprise-Knowledge-Intelligence-System.git
+cd RAG-Based-Enterprise-Knowledge-Intelligence-System
+```
 
-### Backend Setup
+### 2. Set up the Python environment
 
-Open PowerShell in the project root:
+Create a virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Activate it on Windows PowerShell:
 
 ```powershell
-python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
-Install the Python dependencies required by the project. Keep your API key in a local `.env` file or environment variable, according to the backend configuration. Never commit API keys to GitHub.
+Install the required Python packages:
 
-### Frontend Setup
+```bash
+pip install fastapi uvicorn pymupdf python-dotenv groq sentence-transformers chromadb langchain-text-splitters
+```
 
-```powershell
+### 3. Configure the Groq API key
+
+Create a `.env` file in the project root and add your own API key:
+
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+Replace the placeholder with your actual key. Never commit your `.env` file or publish your API key.
+
+### 4. Start the backend
+
+From the project root, run:
+
+```bash
+uvicorn backend.main:app --reload
+```
+
+The FastAPI backend will be available at:
+
+http://127.0.0.1:8000
+
+You can check the API's root endpoint at:
+
+http://127.0.0.1:8000/
+
+### 5. Start the frontend
+
+Open a second terminal and navigate to the frontend directory:
+
+```bash
 cd frontend
+```
+
+Install the frontend dependencies:
+
+```bash
 npm install
+```
+
+Start the development server:
+
+```bash
 npm run dev
 ```
 
-Use the local URL displayed by Vite to open the frontend.
+Open the local URL displayed in your terminal, usually:
 
-*The exact backend launch command and dependency installation instructions should match the final `main.py` and dependency configuration.*
+http://localhost:5173/
 
-## Reliability and Hallucination Reduction
+Keep both the backend and frontend running while using the application.
 
-An important objective is to reduce unsupported responses by grounding answer generation in retrieved document content.
+## API Endpoint
 
-Planned improvements include:
+### POST `/ask`
 
-* Improve retrieval relevance.
-* Handle questions whose answers are missing from the documents.
-* Provide source references for generated answers.
-* Test answers against known questions and expected results.
-* Improve error handling for document processing, retrieval, and API failures.
+Processes a user question and returns an AI-generated answer.
 
-Retrieval-augmented generation can reduce hallucinations, but it does not guarantee that every generated answer is correct.
+**Request body:**
 
-## Development Roadmap
+```json
+{
+  "question": "How many paid leave days do employees get per year?"
+}
+```
 
-* [x] Project foundation and GitHub setup
-* [x] PDF text extraction
-* [x] Text chunking
-* [x] Embedding generation
-* [x] ChromaDB vector storage and retrieval
-* [x] Groq-based LLM generation stage
-* [x] React and Vite frontend initialization
-* [ ] Complete and connect the frontend interface to the backend
-* [ ] Test the complete end-to-end question-answering workflow
-* [ ] Improve responses when relevant information is unavailable
-* [ ] Add source citations to answers
-* [ ] Support multiple documents and document updates
-* [ ] Add automated tests and retrieval-quality evaluation
-* [ ] Prepare the application for deployment
+**Example response:**
 
+```json
+{
+  "answer": "Employees receive 18 paid leave days per year."
+}
+```
 
-## Project Status
+The actual answer format may vary depending on the retrieved context and language model response.
 
-**Status: Under active development.**
+## Example Questions
 
-The core RAG processing components have been implemented incrementally, and the frontend setup has begun. Completing and validating the integrated application is the next major objective.
+Using the sample enterprise knowledge document, try questions such as:
+
+- How many paid leave days do employees get per year?
+- How many days per week can employees work remotely?
+- What are the company's working hours?
+- Which team handles IT support?
+- What information is available about company policies?
+
+The system should respond based on the information retrieved from the knowledge base. Questions not supported by the available documents should be handled as unavailable information rather than answered with invented facts.
+
+## Current Project Status
+
+**Completed:**
+
+- PDF text extraction
+- Text chunking
+- Embedding generation
+- ChromaDB vector storage and retrieval
+- Groq-powered answer generation
+- RAG pipeline integration
+- FastAPI backend and question endpoint
+- React chat interface
+- Frontend-backend integration
+- Markdown-formatted answers
+- Enter-to-send functionality
+- Clear Chat functionality
+- Automatic scrolling to the latest chat message
+- Chat layout and scrolling improvements
+
+**Future Improvements:**
+
+- Suggested questions
+- Improved loading animations
+- Displaying retrieved document sources
+- Support for uploading additional enterprise documents
+- Improved retrieval evaluation and answer quality
+- Deployment of the complete application
+
+## Security Notes
+
+- Keep API keys in environment variables.
+- Do not commit `.env`, virtual environments, or `node_modules`.
+- Do not upload confidential company documents to a public repository.
+- Configure CORS appropriately before deploying the application.
+
+## Future Scope
+
+The system can be extended into a more complete enterprise knowledge assistant by supporting multiple documents, document-source citations, improved retrieval evaluation, and deployment for remote access.
 
 ## Author
 
 **Prajwal Sortur**
 
-GitHub: https://github.com/prajwalsortur
-
-Repository: https://github.com/prajwalsortur/RAG-Based-Enterprise-Knowledge-Intelligence-System
+GitHub: https://github.com/p
