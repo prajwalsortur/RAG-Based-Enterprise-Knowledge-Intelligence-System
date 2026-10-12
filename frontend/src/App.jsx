@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import './App.css'
 // This component provides the chat interface for the RAG application.
@@ -13,6 +13,19 @@ const clearChat = () => {
   setQuestion("");
 };
   const [loading, setLoading] = useState(false)
+  // Keep the latest chat message visible.
+const messagesEndRef = useRef(null)
+
+// Scroll to the latest message after the chat updates.
+useEffect(() => {
+  requestAnimationFrame(() => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    })
+  })
+}, [messages, loading])
+
 
   // Send a question to the existing FastAPI /ask endpoint.
   async function sendQuestion(event) {
@@ -121,14 +134,16 @@ const clearChat = () => {
           ))}
 
           {loading && (
-            <div className="message assistant">
-              <strong>Knowledge AI</strong>
-              <p>Searching the knowledge base...</p>
-            </div>
-          )}
-        </div>
+  <div className="message assistant">
+    <strong>Knowledge AI</strong>
+    <p>Searching the knowledge base...</p>
+  </div>
+)}
 
-        <form className="question-form" onSubmit={sendQuestion}>
+<div ref={messagesEndRef} />
+</div>
+
+<form className="question-form" onSubmit={sendQuestion}>
           
 <input
   type="text"
