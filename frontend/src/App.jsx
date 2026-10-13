@@ -5,6 +5,7 @@ import './App.css'
 // This component provides the chat interface for the RAG application.
 // It sends questions to FastAPI and displays the answers returned by the backend.
 function App() {
+  const [copiedIndex, setCopiedIndex] = useState(null)
   const [question, setQuestion] = useState('')
   const [messages, setMessages] = useState([])
   // Clear the current conversation so the user can start fresh.
@@ -169,13 +170,14 @@ useEffect(() => {
         onClick={async () => {
           try {
             await navigator.clipboard.writeText(message.text)
-            alert('Answer copied successfully!')
+            setCopiedIndex(index)
+            setTimeout(() => setCopiedIndex(null), 2000)
           } catch {
             alert('Unable to copy. Please try again.')
           }
         }}
       >
-        Copy Answer
+       {copiedIndex === index ? 'Copied!' : 'Copy Answer'}
       </button>
     )}
   </div>
