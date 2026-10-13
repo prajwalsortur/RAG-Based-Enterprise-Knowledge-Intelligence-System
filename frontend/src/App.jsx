@@ -107,12 +107,41 @@ useEffect(() => {
         <div className="messages">
           {messages.length === 0 && (
             <div className="welcome-message">
-              <h3>How can I help you?</h3>
-              <p>
-                Ask a question and I will search the available
-                knowledge base for an answer.
-              </p>
-            </div>
+  <h3>How can I help you?</h3>
+  <p>
+    Ask a question and I will search the available
+    knowledge base for an answer.
+  </p>
+
+  <div className="suggested-questions">
+    <button
+      type="button"
+      onClick={() =>
+        setQuestion("How many paid leave days do employees get per year?")
+      }
+    >
+      How many paid leave days do employees get?
+    </button>
+
+    <button
+      type="button"
+      onClick={() =>
+        setQuestion("What are the company's working hours?")
+      }
+    >
+      What are the company's working hours?
+    </button>
+
+    <button
+      type="button"
+      onClick={() =>
+        setQuestion("How many days per week can employees work remotely?")
+      }
+    >
+      How many days can employees work remotely?
+    </button>
+  </div>
+</div>
           )}
 
           {messages.map((message, index) => (
