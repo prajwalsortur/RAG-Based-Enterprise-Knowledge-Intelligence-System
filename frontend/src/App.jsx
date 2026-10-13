@@ -144,23 +144,43 @@ useEffect(() => {
 </div>
           )}
 
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`message ${message.role}`}
-            >
-              <strong>
-                {message.role === 'user' ? 'You' : 'Knowledge AI'}
-              </strong>
-              <div className="message-content">
-  {message.role === 'assistant' ? (
-    <ReactMarkdown>{message.text}</ReactMarkdown>
-  ) : (
-    <p>{message.text}</p>
-  )}
-</div>
-            </div>
-          ))}
+          
+{messages.map((message, index) => (
+  <div
+    key={index}
+    className={`message ${message.role}`}
+  >
+    <strong>
+      {message.role === 'user' ? 'You' : 'Knowledge AI'}
+    </strong>
+
+    <div className="message-content">
+      {message.role === 'assistant' ? (
+        <ReactMarkdown>{message.text}</ReactMarkdown>
+      ) : (
+        <p>{message.text}</p>
+      )}
+    </div>
+
+    {message.role === 'assistant' && (
+      <button
+        type="button"
+        className="copy-button"
+        onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(message.text)
+            alert('Answer copied successfully!')
+          } catch {
+            alert('Unable to copy. Please try again.')
+          }
+        }}
+      >
+        Copy Answer
+      </button>
+    )}
+  </div>
+))}
+
 
           {loading && (
   <div className="message assistant">
