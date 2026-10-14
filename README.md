@@ -93,7 +93,6 @@ User Question --> FastAPI Backend
 
 ## 📁 Project Structure
 
-```text
 RAG-Based-Enterprise-Knowledge-Intelligence-System/
 │
 ├── backend/
