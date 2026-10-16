@@ -279,6 +279,3 @@ These are planned enhancements, not claims about currently implemented features.
 - GitHub: [@prajwalsortur](https://github.com/prajwalsortur)
 - Project Repository: [RAG-Based Enterprise Knowledge Intelligence System](https://github.com/prajwalsortur/RAG-Based-Enterprise-Knowledge-Intelligence-System)
 
-## 📄 License
-
-A license has not been specified here. Add a `LICENSE` file and update this section if you choose to distribute the project under an open-source license.
