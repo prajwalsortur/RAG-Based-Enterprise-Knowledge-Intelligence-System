@@ -258,20 +258,6 @@ The quality of the answers depends on the source documents, retrieved context, e
 - Integrate an AI backend with a React frontend.
 - Explore practical applications of Generative AI for enterprise knowledge management.
 
-## 🔮 Future Enhancements
-
-Potential improvements include:
-
-- Support for multiple PDF documents and additional file formats.
-- Document upload and knowledge-base management.
-- Source references for generated answers.
-- Improved retrieval accuracy and answer evaluation.
-- Conversation history and chat management.
-- Authentication and role-based access control.
-- Deployment to cloud platforms.
-
-These are planned enhancements, not claims about currently implemented features.
-
 ## 👨‍💻 Author
 
 **Prajwal Sortur**
